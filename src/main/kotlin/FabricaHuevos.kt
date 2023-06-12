@@ -7,9 +7,7 @@ import java.util.concurrent.TimeUnit
 object FabricaHuevos {
     val MAX_HUEVOS = 25
     val INTER_GRANJA = 1000
-    val TAMANO = 10
     val TAM_LOTE = 6
-    val INTER_MENSA = 3000
     val PRIO1 = 4
     val PRIO2 = 8
 
