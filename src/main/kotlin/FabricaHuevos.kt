@@ -26,7 +26,13 @@ object FabricaHuevos {
         pool.execute(em)
         pool.shutdown()
 
-    //    pool.awaitTermination(10L, TimeUnit.SECONDS)
+
+
+
+        pool.awaitTermination(1L, TimeUnit.SECONDS)
+
+
+
         // Esperamos a que acaben
 
 

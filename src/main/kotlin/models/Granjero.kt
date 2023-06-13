@@ -1,28 +1,33 @@
 package models
 
 class Granjero(
-    private var gallinero:MonitorProducerConsumer<Huevos>,
-    private val tam: Int
+    private var gallinero: MonitorProducerConsumer<Huevos>,
+    private val numLotes: Int,
+    private val numHuevosPorLote: Int
 
-) :Thread(){
-    override fun run(){
+
+) : Thread() {
+    override fun run() {
         println("EMPEZAMOS A CURRAR")
-        Thread.sleep(1000L)
-        val misHuevos= mutableListOf<Huevos>()
 
-                for (i in 1 until 30) {
-                    for (k in 0 until tam) {
-                        val huevos = gallinero.get()
-                        huevos.lote = i // LE asigno el lote
-                        misHuevos.add(huevos)
-                        var timeout = huevos.consumirHuevos()
-                        Thread.sleep(timeout.toLong())
-                        println("Granjero-> Paquete Lote: " + i + " empaqueto huevos: " + huevos.id + " " + huevos.yemas + "yemas de: " + huevos.idGallina)
+        val misHuevos = mutableListOf<Huevos>()
 
-                    }
-                    imprimirLote(misHuevos)
-                    misHuevos.clear()
-                }
+        for (i in 0 until numLotes) {//Con este for vamos rellenamos un lote , y llegamos al numLotes que es el Maximo de Lotes que quiero hacer
+
+            for (k in 0 until numHuevosPorLote) { //CON ESTE FOR RELLENAMOS EL LOTE YA QUE VAMOS DE 0 al 12 (12 ES EL MAXIMO NUMERO EN UN LOTE) Y LOS VA AÑADIENDO
+
+                val huevo = gallinero.get() //AQUI SE ESTA CONSUMIENDO
+                huevo.lote = i // LE asigno el lote
+                misHuevos.add(huevo)
+                var timeout = huevo.consumirHuevos()
+
+                Thread.sleep(timeout.toLong())
+                println("Granjero-> Paquete Lote: " + i + " empaqueto huevos: " + huevo.id + " " + huevo.yemas + "yemas de: " + huevo.idGallina)
+
+            }
+            imprimirLote(misHuevos)
+            misHuevos.clear()
+        }
 
 
     }
@@ -33,6 +38,8 @@ class Granjero(
             println("\t->$it")
         }
     }
+
+
 }
 
 

@@ -19,6 +19,7 @@ class GallineroLock (private val maxHuevos:Int):MonitorProducerConsumer<Huevos>{
         lock.withLock {
             while (gallinero.size == 0) {
                 try {
+                    println("esperando a que haya huevos ")
                     gallineroEmptyCondicitions.await();
                 } catch (e: InterruptedException) {
                     e.printStackTrace()
@@ -35,7 +36,7 @@ class GallineroLock (private val maxHuevos:Int):MonitorProducerConsumer<Huevos>{
 
    override fun put(item:Huevos) {
         lock.withLock {
-            while (gallinero.size == maxHuevos) {
+            while (size() == maxHuevos) {
                 try {
                     gallineroFullCondicitions.await()
                 } catch (e: InterruptedException) {
@@ -46,7 +47,7 @@ class GallineroLock (private val maxHuevos:Int):MonitorProducerConsumer<Huevos>{
             println("\t\tEl gallinero tiene: " + size())
             huevosDisponible = true
             // Ya hay cantidad a consumir, activamos
-            gallineroFullCondicitions.signalAll();
+            gallineroEmptyCondicitions.signalAll();
         }
     }
 

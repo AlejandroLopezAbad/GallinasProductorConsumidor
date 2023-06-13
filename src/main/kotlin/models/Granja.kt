@@ -10,15 +10,11 @@ class Granja(
 
     override fun run() {
         priority = prioridad
-        for (i in 1 until cant + 1) {
-            val huevo = Huevos(i, idGallina = id)
+        for (i in 0 until cant ) { //hace huevos entre 1 y la cant , que es en la fabrica el max huevos , y crea ese numero de huevos
+            val huevo = Huevos(i+1, idGallina = id)
             println("Granja " + id + "-> Produzco huevo: " + i + ": " + huevo.id + " de " + huevo.yemas + " yemas")
             gallinero.put(huevo)
         }
-        try {
-            sleep(ms.toLong())
-        } catch (e: InterruptedException) {
-            e.printStackTrace()
-        }
+
     }
 }
